@@ -2,59 +2,58 @@ import React, { FunctionComponent, useState, useEffect } from "react"
 import useEventListener from "@use-it/event-listener"
 
 import styles from "./Gameboard.module.scss"
+import { MemoryGame } from "../momory-game/memory-game"
 import { Grid } from "./Grid"
 import { Card, CardId } from "./Card"
 
 const numberOfUniqueCards = 8
 
 interface GameboardProps {
-  game: any
+  socket: any
+  game: MemoryGame
 }
 
-export const Gameboard: FunctionComponent<GameboardProps> = ({ game }) => {
-  useEffect(() => {
-    game.onSelectCard(addTurnedCards)
-  })
-  const howManyCards = numberOfUniqueCards * 2
+export const Gameboard: FunctionComponent<GameboardProps> = ({
+  socket,
+  game
+}) => {
+  const [turnedCards, setTurnedCards] = useState<number[]>([])
+  const [clearedCards, setClearedCards] = useState<number[]>([])
 
-  function useArray(): [CardId[], (id: number) => void, (id: number) => void] {
-    const [turnedCardsIds, setTurnedCardId] = useState<CardId[]>([])
-    const addTurnedCards = (cardId: CardId) =>
-      setTurnedCardId([...turnedCardsIds, cardId])
+  const turnCard = (index: number) => {
+    game.selectByIndex(index)
 
-    const removeTurnedCard = (cardId: CardId) =>
-      setTurnedCardId(turnedCardsIds.filter(id => id != cardId))
+    const selectedIndexes = game.getSelectedIndexes()
+    setTurnedCards([...selectedIndexes])
 
-    return [turnedCardsIds, addTurnedCards, removeTurnedCard]
+    const clearedIndexes = game.getClearedIndexes()
+    setClearedCards([...clearedIndexes])
   }
 
-  const [turnedCardsIds, addTurnedCards, removeTurnedCard] = useArray()
+  const isCardTurned = (index: number) => turnedCards.includes(index)
+  const isCardCleared = (index: number) => clearedCards.includes(index)
 
-  const isCardTurned = (id: CardId) => turnedCardsIds.includes(id)
-
-  const oncCardClick = (id: CardId) => {
-    isCardTurned(id) ? removeTurnedCard(id) : addTurnedCards(id)
-    game.selectCard(id)
-    console.log(id)
+  const oncCardClick = (index: number) => {
+    if (isCardTurned(index)) return
+    turnCard(index)
   }
 
-  const cards = [...Array(howManyCards).keys()].map((_, i) => (
-    <Card id={i} onClick={oncCardClick} key={i} isTurned={isCardTurned(i)} />
-  ))
-  // create2DArray(3, 5, (x, y) => <Card id={[x, y]} onClick={}/>)
-
-  return <div className={styles.wrapper}>{cards}</div>
+  return (
+    <div className={styles.wrapper}>
+      {game.getIds().map((id, index) => {
+        return (
+          <Card
+            id={id}
+            onClick={() => oncCardClick(index)}
+            key={id.toString().concat(index.toString())}
+            isTurned={isCardTurned(index)}
+            isCleared={isCardCleared(index)}
+          />
+        )
+      })}
+    </div>
+  )
 }
-
-// export function create2DArray(
-//   rows: number,
-//   columns: number,
-//   fromIndexes: (x: number, y: number, args?: any[]) => any
-// ) {
-//   return [...Array(rows).keys()].map(row =>
-//     [...Array(columns).keys()].map(column => fromIndexes(row, column))
-//   )
-// }
 
 // const useMouseMove = () => {
 //   const [coords, setCoords] = useState([0, 0])
@@ -66,4 +65,15 @@ export const Gameboard: FunctionComponent<GameboardProps> = ({ game }) => {
 //   })
 
 //   return coords
+// }
+
+// function useArray(): [CardId[], (id: number) => void, (id: number) => void] {
+//   const [turnedCardsIds, setTurnedCardId] = useState<CardId[]>([])
+//   const addTurnedCards = (cardId: CardId) =>
+//     setTurnedCardId([...turnedCardsIds, cardId])
+
+//   const removeTurnedCard = (cardId: CardId) =>
+//     setTurnedCardId(turnedCardsIds.filter(id => id !== cardId))
+
+//   return [turnedCardsIds, addTurnedCards, removeTurnedCard]
 // }

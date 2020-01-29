@@ -9,12 +9,14 @@ interface CardProps {
   id: CardId
   onClick: (id: number) => void
   isTurned: boolean
+  isCleared: boolean
 }
 
 export const Card: FunctionComponent<CardProps> = ({
   id,
   onClick,
   isTurned,
+  isCleared,
   ...props
 }) => {
   //   const [isClicked, setIsClicked] = useState<SetStateAction<null | boolean>>(
@@ -23,7 +25,10 @@ export const Card: FunctionComponent<CardProps> = ({
 
   return (
     <div
-      className={cx(styles.wrapper, { "wrapper--turned": isTurned })}
+      className={cx(styles.wrapper, {
+        "wrapper--turned": isTurned,
+        "wrapper--cleared": isCleared
+      })}
       onClick={() => {
         // setIsClicked(!isClicked)
         onClick(id)
