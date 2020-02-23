@@ -6,7 +6,7 @@ const cx = cxBinder.bind(styles)
 export type CardId = number
 
 interface CardProps {
-  id: CardId
+  id: number
   onClick: (id: number) => void
   isFlipped: boolean
   isCleared: boolean

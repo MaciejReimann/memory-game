@@ -1,6 +1,6 @@
 import React from "react"
 import styles from "./App.module.scss"
-import { MemoryGame, defaultConfig } from "./momory-game/memory-game"
+import { MemoryGame, defaultConfig } from "./memory-game/memory-game"
 import { Gameboard } from "./gameboard/Gameboard"
 
 function App() {
