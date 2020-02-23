@@ -5,20 +5,22 @@ export type Player = string
 
 export type MemoryGameConfig = {
   pairsCount: number
+  players: Player[]
 }
 
 export class MemoryGame {
   readonly ids: CardId[]
   readonly players: Player[]
+
   selectedIndexes: number[] = []
   clearedIndexes: number[] = []
 
-  constructor(readonly config: MemoryGameConfig) {
-    this.ids = getShuflfedPairedIds(this.config.pairsCount)
-    this.players = ["Me"]
+  constructor(config: MemoryGameConfig) {
+    this.ids = getShuflfedPairedIds(config.pairsCount)
+    this.players = config.players
   }
 
-  getIds(): CardId[] {
+  getCardIds(): CardId[] {
     return this.ids
   }
 
@@ -59,19 +61,22 @@ export class MemoryGame {
   }
 }
 
-////////////////////////////////////////////////////////////////
-function getShuflfedPairedIds(howMany: number): CardId[] {
-  return shuffle(getPairedIds(howMany))
+// helpers - can be easily moved to a separate file
+
+function getShuflfedPairedIds(numberOfIndexes: number): CardId[] {
+  return shuffle(getDoubledArrayOfIndexes(numberOfIndexes))
 }
 
-function getPairedIds(howMany: number): CardId[] {
-  return [...getIds(howMany), ...getIds(howMany)]
+function getDoubledArrayOfIndexes(numberOfIndexes: number): CardId[] {
+  const arrayOfIndexes = getArrayOfIndexes(numberOfIndexes)
+  return arrayOfIndexes.concat(arrayOfIndexes)
 }
 
-function getIds(howMany: number): CardId[] {
-  return [...Array(howMany).keys()].map((_, i) => i)
+function getArrayOfIndexes(length: number): CardId[] {
+  return [...Array(length).keys()]
 }
 
-export const memoryGameConfig = {
-  pairsCount: 8
+export const defaultConfig = {
+  pairsCount: 8,
+  players: ["Me"]
 }

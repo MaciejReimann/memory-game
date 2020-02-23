@@ -1,26 +1,19 @@
-import React, { FunctionComponent, useState, useEffect } from "react"
-import useEventListener from "@use-it/event-listener"
+import React, { FunctionComponent, useState } from "react"
+
+import { MemoryGame } from "../momory-game/memory-game"
 
 import styles from "./Gameboard.module.scss"
-import { MemoryGame } from "../momory-game/memory-game"
-import { Grid } from "./Grid"
 import { Card, CardId } from "./Card"
 
-const numberOfUniqueCards = 8
-
 interface GameboardProps {
-  socket: any
   game: MemoryGame
 }
 
-export const Gameboard: FunctionComponent<GameboardProps> = ({
-  socket,
-  game
-}) => {
+export const Gameboard: FunctionComponent<GameboardProps> = ({ game }) => {
   const [turnedCards, setTurnedCards] = useState<number[]>([])
   const [clearedCards, setClearedCards] = useState<number[]>([])
 
-  const turnCard = (index: number) => {
+  const flipCard = (index: number) => {
     game.selectByIndex(index)
 
     const selectedIndexes = game.getSelectedIndexes()
@@ -30,23 +23,23 @@ export const Gameboard: FunctionComponent<GameboardProps> = ({
     setClearedCards([...clearedIndexes])
   }
 
-  const isCardTurned = (index: number) => turnedCards.includes(index)
-  const isCardCleared = (index: number) => clearedCards.includes(index)
+  const isCardFlipped = (index: CardId) => turnedCards.includes(index)
+  const isCardCleared = (index: CardId) => clearedCards.includes(index)
 
-  const oncCardClick = (index: number) => {
-    if (isCardTurned(index)) return
-    turnCard(index)
+  const oncCardClick = (index: CardId) => {
+    if (isCardFlipped(index)) return
+    flipCard(index)
   }
 
   return (
     <div className={styles.wrapper}>
-      {game.getIds().map((id, index) => {
+      {game.getCardIds().map((cardId, index) => {
         return (
           <Card
-            id={id}
+            id={cardId}
             onClick={() => oncCardClick(index)}
-            key={id.toString().concat(index.toString())}
-            isTurned={isCardTurned(index)}
+            key={`${cardId}${index}`}
+            isFlipped={isCardFlipped(index)}
             isCleared={isCardCleared(index)}
           />
         )
@@ -54,26 +47,3 @@ export const Gameboard: FunctionComponent<GameboardProps> = ({
     </div>
   )
 }
-
-// const useMouseMove = () => {
-//   const [coords, setCoords] = useState([0, 0])
-
-//   useEventListener("mousemove", (event: any): void => {
-//     setCoords([event.clientX, event.clientY])
-
-//     // socket.emit("mousemove", { x: event.clientX, y: event.clientY })
-//   })
-
-//   return coords
-// }
-
-// function useArray(): [CardId[], (id: number) => void, (id: number) => void] {
-//   const [turnedCardsIds, setTurnedCardId] = useState<CardId[]>([])
-//   const addTurnedCards = (cardId: CardId) =>
-//     setTurnedCardId([...turnedCardsIds, cardId])
-
-//   const removeTurnedCard = (cardId: CardId) =>
-//     setTurnedCardId(turnedCardsIds.filter(id => id !== cardId))
-
-//   return [turnedCardsIds, addTurnedCards, removeTurnedCard]
-// }
