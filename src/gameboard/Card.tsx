@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react"
+import React, { FunctionComponent, useState, useEffect } from "react"
 import cxBinder from "classnames/bind"
 import styles from "./Card.module.scss"
 const cx = cxBinder.bind(styles)
@@ -10,6 +10,8 @@ interface CardProps {
   onClick: (id: number) => void
   isFlipped: boolean
   isCleared: boolean
+  // canBeFlipped: boolean // only if flipped.length < 2
+  shouldWaitForFlipback: boolean
 }
 
 export const Card: FunctionComponent<CardProps> = ({
@@ -17,16 +19,27 @@ export const Card: FunctionComponent<CardProps> = ({
   onClick,
   isFlipped,
   isCleared,
+  shouldWaitForFlipback,
   ...props
 }) => {
+  const [flipped, setFlipped] = useState(false)
+
+  shouldWaitForFlipback && console.log(id)
+
+  useEffect(() => {
+    setTimeout(() => {
+      setFlipped(false)
+    }, 1000)
+  }, [flipped])
+
   return (
     <div
       className={cx(styles.wrapper, {
-        "wrapper--flipped": isFlipped,
-        "wrapper--cleared": isCleared
+        "wrapper--flipped": flipped,
+        "wrapper--flipped--cleared": isCleared
       })}
       onClick={() => {
-        // setIsClicked(!isClicked)
+        setFlipped(true)
         onClick(id)
       }}
       {...props}

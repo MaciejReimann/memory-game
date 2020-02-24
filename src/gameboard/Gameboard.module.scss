@@ -1,10 +1,11 @@
 @import "../themes.scss/classic_theme";
 
 .wrapper {
-  display: grid;
-  grid-template-rows: repeat(3, $card-height);
-  grid-template-columns: repeat(5, $card-width);
-  column-gap: $gap-between-cards;
-  row-gap: $gap-between-cards;
-  // padding: 15px;
+  height: 90%;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  perspective: 1000px;
 }

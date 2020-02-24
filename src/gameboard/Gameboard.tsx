@@ -38,6 +38,7 @@ export const Gameboard: FunctionComponent<GameboardProps> = ({ game }) => {
   return (
     <div className={styles.wrapper}>
       {game.getCards().map(card => {
+        console.log(card, flippedCards)
         return (
           <Card
             id={card.id}
@@ -45,6 +46,7 @@ export const Gameboard: FunctionComponent<GameboardProps> = ({ game }) => {
             key={`${card.id}${card.position}`}
             isFlipped={isCardFlipped(card.position)}
             isCleared={isCardCleared(card.position)}
+            shouldWaitForFlipback={flippedCards[0] === card.position}
           />
         )
       })}

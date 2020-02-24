@@ -6,16 +6,29 @@ $box-shadow: 10px;
 .wrapper {
   width: $card-width;
   height: $card-height;
+  margin: 5px;
   border: 1px solid lightgrey;
   border-radius: $border-radius;
   box-shadow: 0 $box-shadow $box-shadow 0 rgba(black, 0.1);
+  transform: rotateY(0deg);
+  transform-style: preserve-3d;
+  transition: 0.5s;
 
   &--flipped {
+    // transition: visibility 2s linear 1s;
     background-color: grey;
-  }
+    transform: rotateY(180deg);
+    transform-style: preserve-3d;
+    transition: 0.5s;
 
-  &--cleared {
-    visibility: hidden;
+    // &--back {
+    //   transform: rotateY(-180deg);
+    //   transform-style: preserve-3d;
+    // }
+
+    &--cleared {
+      visibility: hidden;
+    }
   }
 
   &:hover {
