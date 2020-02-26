@@ -15,19 +15,26 @@ $box-shadow: 10px;
   transition: 0.5s;
 
   &--flipped {
-    // transition: visibility 2s linear 1s;
     background-color: grey;
     transform: rotateY(180deg);
     transform-style: preserve-3d;
     transition: 0.5s;
 
-    // &--back {
-    //   transform: rotateY(-180deg);
-    //   transform-style: preserve-3d;
-    // }
-
     &--cleared {
-      visibility: hidden;
+      opacity: 1;
+
+      animation: fadeIn 0.5s;
+      animation-delay: 0.5s;
+      animation-fill-mode: forwards;
+
+      @keyframes fadeIn {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
     }
   }
 

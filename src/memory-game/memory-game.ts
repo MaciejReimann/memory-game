@@ -28,42 +28,51 @@ export class MemoryGame {
   }
 
   onFlipCard(card: MemoryCard): void {
-    if (this.isCardMatching(card)) {
-      this.resetFlippedCards()
-      this.addPairToClearedCards(card)
-    } else if (this.flippedCards.length < 2) {
-      this.addToFlippedCards(card)
-    } else {
-      this.resetFlippedCards()
-    }
+    if (this.isCardFlipped(card)) return
+
+    this.addToFlippedCards(card)
+
+    if (this.isFirstCardFlipped()) return
+    if (this.isSecondCardFlipped()) this.clearIfIsPair(card)
+    else this.resetFlippedCards()
   }
 
-  getFlippedCards(): MemoryCard[] {
-    return this.flippedCards
+  isCardFlipped(card: MemoryCard): boolean {
+    return this.flippedCards.map(card => card.position).includes(card.position)
   }
 
-  getClearedCards(): MemoryCard[] {
-    return this.clearedCards
+  isCardCleared(card: MemoryCard): boolean {
+    return this.clearedCards.map(card => card.position).includes(card.position)
   }
 
-  private isNoneOfCardsFlipped(): boolean {
-    return this.flippedCards.length < 1
+  clearIfIsPair(card: MemoryCard): void {
+    if (this.isCardMatching(card)) this.addPairToClearedCards(card)
+  }
+
+  isFirstCardFlipped(): boolean {
+    return this.flippedCards.length === 1
+  }
+
+  isSecondCardFlipped(): boolean {
+    return this.flippedCards.length === 2
   }
 
   private addToFlippedCards(card: MemoryCard): void {
     this.flippedCards.push(card)
   }
 
+  private resetFlippedCards(): void {
+    this.flippedCards = []
+  }
+
   private isCardMatching(card: MemoryCard): boolean {
-    return this.flippedCards.map(card => card.id).includes(card.id)
+    return this.flippedCards.every(flippedCard => flippedCard.id === card.id)
   }
 
   private addPairToClearedCards(card: MemoryCard): void {
-    this.clearedCards.push(card, ...this.flippedCards)
-  }
+    const pair = this.cards.filter(c => c.id === card.id)
 
-  private resetFlippedCards(): void {
-    this.flippedCards = []
+    this.clearedCards.push(...pair)
   }
 
   private getMemoryCardsInRandomOrder(numberOfCards: number): MemoryCard[] {
