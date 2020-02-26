@@ -8,7 +8,7 @@ $box-shadow: 10px;
   height: $card-height;
 
   margin: 5px;
-  border: 1px solid lightgrey;
+  border: 1px solid #f7e3cb;
   border-radius: $border-radius;
   box-shadow: 0 $box-shadow $box-shadow 0 rgba(black, 0.1);
 
@@ -58,7 +58,8 @@ $box-shadow: 10px;
       background-image: url("./assets/thylacinus.jpg");
     }
 
-    transform: rotateY(180deg);
+    background-size: $card-width * 1.05;
+    transform: rotateY(180deg) scale(1.03);
     transform-style: preserve-3d;
     transition: 0.5s;
 
@@ -83,16 +84,4 @@ $box-shadow: 10px;
   &:hover {
     cursor: pointer;
   }
-}
-
-.picture {
-  width: 100px;
-  height: 100px;
-  top: 0;
-  right: 0;
-  position: absolute;
-  content: "";
-  background-position: center;
-  background-size: cover;
-  // background-image: url("../assets/wombat.jpg");
 }

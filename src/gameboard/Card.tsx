@@ -26,17 +26,19 @@ export const Card: FunctionComponent<CardProps> = ({
   isCleared && console.log(`isCleared ${id}: `, isCleared)
 
   return (
-    <div
-      className={cx(
-        styles.wrapper,
-        isFlipped && styles[`wrapper--flipped-${getImageById(id)}`],
-        {
-          "wrapper--flipped": isFlipped,
-          "wrapper--flipped--cleared": isCleared
-        }
-      )}
-      onClick={onClick}
-      {...props}
-    />
+    <>
+      <div
+        className={cx(
+          styles.wrapper,
+          isFlipped && styles[`wrapper--flipped-${getImageById(id)}`],
+          {
+            "wrapper--flipped": isFlipped,
+            "wrapper--flipped--cleared": isCleared
+          }
+        )}
+        onClick={onClick}
+        {...props}
+      ></div>
+    </>
   )
 }
