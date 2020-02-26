@@ -29,16 +29,13 @@ export class MemoryGame {
 
   onFlipCard(card: MemoryCard): void {
     if (this.isCardMatching(card)) {
-      this.addPairToClearedCards(card)
-      return
-    }
-
-    if (this.flippedCards.length > 1) {
       this.resetFlippedCards()
-      return
+      this.addPairToClearedCards(card)
+    } else if (this.flippedCards.length < 2) {
+      this.addToFlippedCards(card)
+    } else {
+      this.resetFlippedCards()
     }
-
-    this.addToFlippedCards(card)
   }
 
   getFlippedCards(): MemoryCard[] {
