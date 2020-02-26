@@ -97,7 +97,23 @@ function getArrayOfIndexes(length: number): number[] {
   return [...Array(length).keys()]
 }
 
+const animals = [
+  "wombat",
+  "wombat_2",
+  "cuscus",
+  "echidna",
+  "koala",
+  "numbat",
+  "phascogale",
+  "quoll",
+  "thylacinus"
+]
+
 export const defaultConfig = {
-  pairsCount: 8,
+  pairsCount: animals.length,
   players: ["Me"]
+}
+
+export function getImageById(id: number) {
+  return animals[id]
 }

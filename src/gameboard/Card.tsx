@@ -1,7 +1,9 @@
-import React, { FunctionComponent, useContext } from "react"
+import React, { FunctionComponent } from "react"
 
 import cxBinder from "classnames/bind"
 import styles from "./Card.module.scss"
+
+import { getImageById } from "../memory-game/memory-game"
 const cx = cxBinder.bind(styles)
 
 export type CardId = number
@@ -25,14 +27,16 @@ export const Card: FunctionComponent<CardProps> = ({
 
   return (
     <div
-      className={cx(styles.wrapper, {
-        "wrapper--flipped": isFlipped,
-        "wrapper--flipped--cleared": isCleared
-      })}
+      className={cx(
+        styles.wrapper,
+        isFlipped && styles[`wrapper--flipped-${getImageById(id)}`],
+        {
+          "wrapper--flipped": isFlipped,
+          "wrapper--flipped--cleared": isCleared
+        }
+      )}
       onClick={onClick}
       {...props}
-    >
-      Card {id}
-    </div>
+    />
   )
 }

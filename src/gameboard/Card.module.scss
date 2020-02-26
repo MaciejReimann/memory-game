@@ -6,16 +6,58 @@ $box-shadow: 10px;
 .wrapper {
   width: $card-width;
   height: $card-height;
+
   margin: 5px;
   border: 1px solid lightgrey;
   border-radius: $border-radius;
   box-shadow: 0 $box-shadow $box-shadow 0 rgba(black, 0.1);
+
+  content: "";
+  background-position: center;
+  background-size: cover;
+  background-image: url("./assets/australia.svg");
+
   transform: rotateY(0deg);
   transform-style: preserve-3d;
   transition: 0.5s;
 
   &--flipped {
-    background-color: grey;
+    &-wombat {
+      background-image: url("./assets/wombat.jpg");
+    }
+
+    &-wombat_2 {
+      background-image: url("./assets/wombat_2.jpg");
+    }
+
+    &-cuscus {
+      background-image: url("./assets/cuscus.jpg");
+    }
+
+    &-echidna {
+      background-image: url("./assets/echidna.jpg");
+    }
+
+    &-koala {
+      background-image: url("./assets/koala.jpg");
+    }
+
+    &-numbat {
+      background-image: url("./assets/numbat.jpg");
+    }
+
+    &-phascogale {
+      background-image: url("./assets/phascogale.jpg");
+    }
+
+    &-quoll {
+      background-image: url("./assets/quoll.jpg");
+    }
+
+    &-thylacinus {
+      background-image: url("./assets/thylacinus.jpg");
+    }
+
     transform: rotateY(180deg);
     transform-style: preserve-3d;
     transition: 0.5s;
@@ -41,4 +83,16 @@ $box-shadow: 10px;
   &:hover {
     cursor: pointer;
   }
+}
+
+.picture {
+  width: 100px;
+  height: 100px;
+  top: 0;
+  right: 0;
+  position: absolute;
+  content: "";
+  background-position: center;
+  background-size: cover;
+  // background-image: url("../assets/wombat.jpg");
 }

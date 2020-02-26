@@ -1,8 +1,8 @@
 @import "../themes.scss/classic_theme";
 
 .wrapper {
-  height: 90%;
-  width: 90%;
+  max-height: 90%;
+  max-width: 90%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
